@@ -1,0 +1,9 @@
+{
+  "username": "john_doe",
+  "messages": [
+    "Hello, World!",
+    "This is a test message.",
+    "Jinja-like templates are cool!"
+  ],
+  "is_admin": true
+}

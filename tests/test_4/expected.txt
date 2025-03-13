@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Task List</title>
+  </head>
+  <body>
+    <h1>Today's Tasks</h1>
+
+    <h2>Trimmed List</h2>
+    <ul>
+      
+        <li>Buy groceries</li>
+      
+        <li>Clean the house</li>
+      
+        <li>Finish project report</li>
+      
+        <li>Call the plumber</li>
+      
+        <li>Prepare dinner</li>
+      
+        <li>Read a book</li>
+      
+        <li>Go for a run</li>
+      
+    </ul>
+
+    <h2>Tasks in Groups (Slice)</h2>
+    
+      <p>  Buy groceries  , Clean the house,   Finish project report  </p>
+    
+      <p>Call the plumber, Prepare dinner</p>
+    
+      <p>Read a book, Go for a run</p>
+    
+  </body>
+</html>
