@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Profile of Alice &amp; Bob</title>
+  </head>
+  <body>
+    <h1>Alice &amp; Bob's Hobbies</h1>
+    <ul>
+      
+        
+          <li>Reading</li>
+        
+      
+        
+          <li>Cycling</li>
+        
+      
+        
+          <ul>
+            
+              <li>Hiking</li>
+            
+              <li>Swimming</li>
+            
+          </ul>
+        
+      
+    </ul>
+  </body>
+</html>

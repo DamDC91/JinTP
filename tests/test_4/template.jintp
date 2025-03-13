@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Task List</title>
+  </head>
+  <body>
+    <h1>Today's Tasks</h1>
+
+    <h2>Trimmed List</h2>
+    <ul>
+      {% for task in tasks %}
+        <li>{{ task|trim }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>Tasks in Groups (Slice)</h2>
+    {% for row in tasks|slice(tasks_per_row ) %}
+      <p>{{ row|join(", ") }}</p>
+    {% endfor %}
+  </body>
+</html>

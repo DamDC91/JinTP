@@ -1,0 +1,26 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Alire
+      uses: alire-project/setup-alire@v4
+
+    - name: Build
+      run: alr -n -C tests build
+
+    - name: Run tests
+      run: cd tests; ./run_test.sh

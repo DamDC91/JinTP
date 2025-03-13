@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User List</title>
+  </head>
+  <body>
+    <h1>Users</h1>
+
+    
+
+    
+      <div class="user">
+        
+       <p>Name: Alice</p>
+       <p>Age: 30</p>
+      
+        <p>Status: Even-aged</p>
+      
+    
+      </div>
+    
+      <div class="user">
+        
+       <p>Name: Bob</p>
+       <p>Age: 25</p>
+      
+        <p>Status: Odd-aged</p>
+      
+    
+      </div>
+    
+      <div class="user">
+        
+       <p>Name: Charlie</p>
+       <p>Age: 40</p>
+      
+        <p>Status: Even-aged</p>
+      
+    
+      </div>
+    
+    
+  </body>
+</html>

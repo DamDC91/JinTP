@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Profile of {{ user.name|e }}</title>
+  </head>
+  <body>
+    <h1>{{ user.name|e }}'s Hobbies</h1>
+    <ul>
+      {% for hobby in user.hobbies %}
+        {% if hobby is string %}
+          <li>{{ hobby }}</li>
+        {% else %}
+          <ul>
+            {% for subhobby in hobby %}
+              <li>{{ subhobby }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </body>
+</html>
