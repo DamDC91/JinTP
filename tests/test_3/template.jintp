@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome, {{ username|capitalize }}</title>
+  </head>
+  <body>
+    <h1>Hello, {{ username|replace('_', ' ')|capitalize }}</h1>
+
+    {% if is_admin %}
+      <p>Welcome, Admin!</p>
+    {% else %}
+      <p>Welcome, User!</p>
+    {% endif %}
+
+    <h2>Your Messages ({{ messages|count }})</h2>
+    <ul>
+      {% for msg in messages %}
+        <li>{{ msg|truncate(20) }}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

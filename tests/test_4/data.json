@@ -1,0 +1,12 @@
+{
+  "tasks": [
+    "  Buy groceries  ",
+    "Clean the house",
+    "  Finish project report  ",
+    "Call the plumber",
+    "Prepare dinner",
+    "Read a book",
+    "Go for a run"
+  ],
+  "tasks_per_row": 3
+}
