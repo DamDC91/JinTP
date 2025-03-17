@@ -1,4 +1,5 @@
 with "gnatcoll.gpr";
+with "aunit.gpr";
 with "../jintp.gpr";
 with "config/jintp_tests_config.gpr";
 project Jintp_Tests is
@@ -7,7 +8,7 @@ project Jintp_Tests is
    for Object_Dir use "obj/" & Jintp_Tests_Config.Build_Profile;
    for Create_Missing_Dirs use "True";
    for Exec_Dir use "bin";
-   for Main use ("tests.adb");
+   for Main use ("jintp_tests.adb");
 
    package Compiler is
       for Default_Switches ("Ada") use Jintp_Tests_Config.Ada_Compiler_Switches;

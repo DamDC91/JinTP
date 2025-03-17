@@ -23,4 +23,4 @@ jobs:
       run: alr -n -C tests build
 
     - name: Run tests
-      run: cd tests; ./run_test.sh
+      run: cd tests; alr run
