@@ -1,0 +1,3 @@
+Ada Lovelace|p-42|London|98.5|007
+active|odd
+mathematics,2,3.5,FALSE

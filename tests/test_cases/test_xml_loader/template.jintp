@@ -1,0 +1,3 @@
+{{ profile.name }}|{{ profile['@id'] }}|{{ profile.address.city }}|{{ profile.completion }}|{{ profile.code }}
+{% if profile.active %}active{% else %}inactive{% endif %}|{% if profile.age is odd %}odd{% else %}even{% endif %}
+{% for label in profile.labels %}{{ label }}{% if not loop.last %},{% endif %}{% endfor %}

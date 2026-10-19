@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<data>
+  <profile type="object" id="p-42">
+    Ada's profile:
+    <name>Ada Lovelace</name>
+    <active>true</active>
+    <age>37</age>
+    <completion>98.5</completion>
+    <code type="string">007</code>
+    <address>
+      <city>London</city>
+      <country>United Kingdom</country>
+    </address>
+    <labels>
+      <item>mathematics</item>
+      <item type="integer">2</item>
+      <item type="float">3.5</item>
+      <item type="boolean">false</item>
+    </labels>
+  </profile>
+</data>

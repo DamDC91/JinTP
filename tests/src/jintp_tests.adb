@@ -1,7 +1,11 @@
 with Ada.Text_IO;
 with Jintp;
-with Test_Utils;
 with GNATCOLL.JSON;
+with Jintp.Loader.Json;
+with Jintp.Loader.Xml;
+with DOM.Readers;
+with Input_Sources.File;
+with Sax.Readers;
 with AUnit.Assertions;
 with AUnit.Test_Suites;
 with AUnit.Options;
@@ -59,20 +63,35 @@ procedure Jintp_Tests is
    procedure Set_Up (T : in out Jintp_Test)
    is
       Directory : constant String := T.Name.all;
+      XML_Path : constant String := Test_Cases_Dir & Directory & "/data.xml";
       Json_Path : constant String := Test_Cases_Dir & Directory & "/data.json";
-
-      Read_Res : constant GNATCOLL.JSON.Read_Result :=
-        GNATCOLL.JSON.Read_File (Json_Path);
    begin
-      case Read_Res.Success is
-         when True =>
-            Test_Utils.Load (T.Dict, Read_Res.Value);
-
-         when False =>
-            Ada.Text_IO.Put_Line (Ada.Text_IO.Standard_Error,
-                                  GNATCOLL.JSON.Format_Parsing_Error
-                                    (Read_Res.Error));
-      end case;
+      if Ada.Directories.Exists (XML_Path) then
+         declare
+            Input  : Input_Sources.File.File_Input;
+            Reader : DOM.Readers.Tree_Reader;
+         begin
+            Input_Sources.File.Open (XML_Path, Input);
+            Sax.Readers.Parse
+              (Sax.Readers.Sax_Reader'Class (Reader), Input);
+            Input_Sources.File.Close (Input);
+            Jintp.Loader.Xml.Load (T.Dict, DOM.Readers.Get_Tree (Reader));
+            DOM.Readers.Free (Reader);
+         end;
+      else
+         declare
+            Read_Res : constant GNATCOLL.JSON.Read_Result :=
+              GNATCOLL.JSON.Read_File (Json_Path);
+         begin
+            if Read_Res.Success then
+               Jintp.Loader.Json.Load (T.Dict, Read_Res.Value);
+            else
+               Ada.Text_IO.Put_Line
+                 (Ada.Text_IO.Standard_Error,
+                  GNATCOLL.JSON.Format_Parsing_Error (Read_Res.Error));
+            end if;
+         end;
+      end if;
    end Set_Up;
 
    overriding

@@ -11,3 +11,4 @@ tags = ["templates", "jinja", "jinja2"]
 
 [[depends-on]]
 gnatcoll = "^25.0.0"
+xmlada = "^25.0.0"
