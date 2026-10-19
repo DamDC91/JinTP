@@ -8,3 +8,5 @@
 /alire/
 /config/
 *.bak
+*.srctrace
+/tests/coverage-output/
