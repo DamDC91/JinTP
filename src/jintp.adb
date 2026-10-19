@@ -3671,6 +3671,28 @@ package body Jintp is
           Dictionary_Value => Dictionary (New_Item)));
    end Append;
 
+   procedure Append (Container : in out List; New_Item  : Integer) is
+   begin
+      Init (Container);
+      Container.Elements.Values.Append ((Kind => Integer_Expression_Value,
+                                         I    => New_Item));
+   end Append;
+
+
+   procedure Append (Container : in out List; New_Item  : Boolean) is
+   begin
+      Init (Container);
+      Container.Elements.Values.Append ((Kind => Boolean_Expression_Value,
+                                         B    => New_Item));
+   end Append;
+
+   procedure Append (Container : in out List; New_Item  : Float) is
+   begin
+      Init (Container);
+      Container.Elements.Values.Append ((Kind => Float_Expression_Value,
+                                         F    => Long_Float (New_Item)));
+   end Append;
+
    procedure Append (Container : in out List; New_Item : List) is
    begin
       Init (Container);

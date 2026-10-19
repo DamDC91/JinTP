@@ -8,3 +8,6 @@ maintainers-logins = ["rehartmann"]
 licenses = "BSD-2-Clause"
 website = "https://github.com/rehartmann/JinTP"
 tags = ["templates", "jinja", "jinja2"]
+
+[[depends-on]]
+gnatcoll = "^25.0.0"

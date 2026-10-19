@@ -37,7 +37,16 @@ package body Test_Utils is
                   Jintp.Append (Container => List,
                                 New_Item  => D);
                end;
-            when others =>
+            when JSON.JSON_Int_Type =>
+               Jintp.Append (Container => List,
+                             New_Item  => Integer'(JSON.Get (V)));
+            when JSON.JSON_Boolean_Type =>
+               Jintp.Append (Container => List,
+                             New_Item  => Boolean'(JSON.Get (V)));
+            when JSON.JSON_Float_Type =>
+               Jintp.Append (Container => List,
+                             New_Item  => Float'(JSON.Get (V)));
+            when JSON.JSON_Null_Type =>
                raise Constraint_Error with "Invalid List";
          end case;
       end loop;

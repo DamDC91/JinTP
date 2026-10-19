@@ -16,8 +16,6 @@ jintp = "*"              # Any version of the main crate
 [[pins]]
 jintp = { path = ".." }
 
-[[depends-on]]
-gnatcoll = "^25.0.0"
 
 [[depends-on]]
 aunit = "^25.0.0"
