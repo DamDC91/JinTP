@@ -19,3 +19,4 @@ jintp = { path = ".." }
 
 [[depends-on]]
 aunit = "^25.0.0"
+gnatcov_bin = "^26.2.1"
