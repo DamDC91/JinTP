@@ -1,0 +1,4 @@
+before{# hidden comment #}{% raw %}{{ literal }}{% endraw %}after
+{% raw %}
+  {% if this is not parsed %}
+{% endraw %}

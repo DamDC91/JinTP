@@ -1,0 +1,1 @@
+A{% include "test_cases/test_imports_and_includes/partial.jintp" %}|{% import "test_cases/test_imports_and_includes/macros.jintp" as ui %}{{ ui.greet(name=name, punctuation="?") }}|{% from "test_cases/test_imports_and_includes/macros.jintp" import greet as say %}{{ say(name) }}|{% from "test_cases/test_imports_and_includes/macros.jintp" import greet %}{{ greet(name=name) }}

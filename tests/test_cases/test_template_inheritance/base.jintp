@@ -1,0 +1,1 @@
+<title>{% block title %}Base title{% endblock %}</title><body>{% block body %}Base body{% block inner %} inner{% endblock %}{% endblock %}</body><aside>{% block untouched %}Base side{% endblock %}</aside>

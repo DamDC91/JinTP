@@ -1,0 +1,1 @@
+{{ simple }}|{% for value in numbers %}{{ value }}{% endfor %}|{{ mixed.one }}{{ mixed.two }}|{% for value in single %}{{ value }}{% endfor %}|{{ empty }}

@@ -1,0 +1,7 @@
+{{ 7 / 2 }}|{{ +2 }}|{{ 1 != 2 }}|{{ 1 < 2 }}|{{ 2 <= 2 }}|{{ 3 >= 2 }}|{{ 3 > 2 }}|{{ 2 > 3 }}
+{{ not false }}|{{ true and false or true }}|{{ [10, 20]|join(",") }}|{{ {"a": 4}|count }}
+{{ {1: "value"}|count }}|{% for key, value in mapping.items() %}{{ key }}:{{ value }}{% endfor %}
+{{ false and true }}|{{ true or false }}|{{ false or true }}|{{ true and true }}
+{{ 0 is boolean }}|{{ 1 is integer }}|{{ 1 is float }}|{{ 2.5 is float }}|{{ "x" is string }}|{{ [1] is sequence }}|{{ {"x": 1} is sequence }}
+{{ 1 is divisibleby(2) }}|{{ 4 is divisibleby(2) }}|{{ 3 is in [1, 2] }}|{{ 2 is in [1, 2] }}
+{{ "a" + "b" }}|{{ 1 + 2.5 }}|{{ -2 }}|{{ 5 - 2 }}|{{ 5 - 2.5 }}|{{ 2 * 3.5 }}
