@@ -1,0 +1,18 @@
+name = "jintp_repl"
+description = "Jintp REPL"
+version = "0.1.0-dev"
+
+authors = ["Damien"]
+maintainers = ["Damien <damiensporting@gmail.com>"]
+maintainers-logins = ["DamDC91"]
+licenses = "BSD-2-Clause"
+website = ""
+tags = ["jintp", "repl"]
+
+[[depends-on]]
+jintp = "*"              # Any version of the main crate
+[[pins]]
+jintp = { path = ".." } 
+
+[[depends-on]]
+gnatcoll_readline = "^25.0.0"
