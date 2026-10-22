@@ -5,3 +5,5 @@
 {{ 0 is boolean }}|{{ 1 is integer }}|{{ 1 is float }}|{{ 2.5 is float }}|{{ "x" is string }}|{{ [1] is sequence }}|{{ {"x": 1} is sequence }}
 {{ 1 is divisibleby(2) }}|{{ 4 is divisibleby(2) }}|{{ 3 is in [1, 2] }}|{{ 2 is in [1, 2] }}
 {{ "a" + "b" }}|{{ 1 + 2.5 }}|{{ -2 }}|{{ 5 - 2 }}|{{ 5 - 2.5 }}|{{ 2 * 3.5 }}
+{{ 0.0000001 }}|{{ [1, 2] }}|{{ {"a": 1, "b": 2} }}
+{{ 2.5|round(precision=1, method="common") }}|{{ -2.5|round(precision=1, method="common") }}

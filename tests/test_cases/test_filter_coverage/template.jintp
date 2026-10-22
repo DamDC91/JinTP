@@ -3,3 +3,16 @@
 {{ {"a":1,"b":2}|count }}|{{ [3,8,2]|max }}|{{ [3,8,2]|min }}|{{ ["a","B"]|max(case_sensitive=true) }}|{{ "0x2a"|int(base=16) }}|{{ "bad"|float(default=1.25) }}|{{ "x"|center(4) }}
 {{ 2.6|round(method="ceil") }}|{{ 2.6|round(method="floor") }}|{{ 3.5|round }}|{{ -2.5|round }}|{{ 2.345|round(precision=2) }}
 {{ multiline|indent(2, first=true, blank=false) }}
+{{ "0o52"|int(base=8) }}|{{ "0b101010"|int(base=2) }}|{{ "2a"|int(base=16) }}|{{ "0x2a"|int(base=10, default=9) }}
+{{ 2.5|round }}|{{ -3.5|round }}|{{ 2.345|round(precision=2, method="common") }}|{{ -2.345|round(precision=2, method="floor") }}|{{ 2.341|round(precision=2, method="ceil") }}
+{% for row in [1,2,3,4]|batch(2) %}[{{ row|join(",") }}]{% endfor %}|{% for row in [1,2,3,4]|slice(2) %}[{{ row|join(",") }}]{% endfor %}
+{{ words|max(case_sensitive=true) }}|{{ words|min }}|{{ "hello world"|truncate(8, leeway=0) }}|{{ "a\"b'"|escape }}
+{{ "x"|center(5) }}|{{ "long"|center(2) }}|{{ "a-b-c"|replace("-", ":", count=-1) }}
+{{ "first\n\nthird"|indent(">", first=false, blank=true) }}|{{ "single"|indent(2, first=false) }}
+{{ "ada"|capitalize }}|{{ words|first }}|{{ words|last }}|{{ 'a"b'|escape }}
+{{ "short"|truncate(20) }}|{{ "x\n"|indent(2) }}
+{{ ["z", "a"]|min }}|{{ ["a", "z"]|max }}|{{ "abc"|replace("a", "x") }}
+{{ 1.5|round }}|{{ -1.5|round }}|{{ [1]|trim }}
+{{ "abc"|replace("a", "x") }}|{{ 3.5|round(method="common") }}|{{ -3.5|round(method="common") }}
+{{ -2.45|round(precision=1, method="common") }}
+{{ empty|max }}X{{ empty|min }}

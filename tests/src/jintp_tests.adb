@@ -117,7 +117,9 @@ procedure Jintp_Tests is
               ("[" & Ada.Strings.Unbounded.To_String (Arguments (1)) & "]");
          end Bracket_Filter;
       begin
-         if T.Name.all = "test_custom_environment" then
+         if T.Name.all = "test_custom_environment"
+           or else T.Name.all = "test_custom_environment_crlf"
+         then
             declare
                Settings : Jintp.Environment;
             begin
@@ -178,6 +180,85 @@ procedure Jintp_Tests is
               Get_File_Content (Test_Dir & "/expected.txt");
          begin
             AUnit.Assertions.Assert (Actual, Expected, "Fail test " & T.Name.all);
+            if T.Name.all = "test_engine_public_references" then
+               declare
+                  Empty_Dict   : Jintp.Dictionary;
+                  Empty_List   : Jintp.List;
+                  Leaf_Dict    : Jintp.Dictionary;
+                  Nested_Dict  : Jintp.Dictionary;
+                  Root_Dict    : Jintp.Dictionary;
+                  Leaf_List    : Jintp.List;
+                  Nested_List  : Jintp.List;
+                  Outer_List   : Jintp.List;
+                  Cycle_Thrown : Boolean := False;
+
+                  function Echo_Filter
+                    (Arguments : Jintp.Unbounded_String_Array)
+                     return Ada.Strings.Unbounded.Unbounded_String
+                  is
+                  begin
+                     return Arguments (1);
+                  end Echo_Filter;
+
+                  Settings : Jintp.Environment;
+               begin
+                  Jintp.Append (Leaf_List, 1);
+                  Jintp.Insert (Leaf_Dict, "items", Leaf_List);
+                  Jintp.Insert (Nested_Dict, "child", Leaf_Dict);
+                  Jintp.Insert (Nested_Dict, "items", Leaf_List);
+                  Jintp.Append (Nested_List, Leaf_Dict);
+                  Jintp.Append (Nested_List, Leaf_List);
+                  Jintp.Append (Outer_List, Empty_Dict);
+                  Jintp.Append (Outer_List, Empty_List);
+                  Jintp.Append (Outer_List, Leaf_Dict);
+                  Jintp.Append (Outer_List, Nested_List);
+                  Jintp.Insert (Root_Dict, "child", Nested_Dict);
+                  Jintp.Insert (Root_Dict, "items", Leaf_List);
+                  Jintp.Insert (Root_Dict, "nested_list", Nested_List);
+
+                  AUnit.Assertions.Assert
+                    (not Jintp.Refers (Empty_Dict, Empty_List),
+                     "empty dictionary should not refer to an empty list");
+                  AUnit.Assertions.Assert
+                    (not Jintp.Refers (Empty_List, Empty_List),
+                     "empty list should not refer to an empty list");
+                  AUnit.Assertions.Assert
+                    (Jintp.Refers (Nested_Dict, Leaf_Dict),
+                     "nested dictionary reference not found");
+                  AUnit.Assertions.Assert
+                    (Jintp.Refers (Nested_List, Leaf_Dict),
+                     "nested list reference not found");
+                  AUnit.Assertions.Assert
+                    (Jintp.Refers (Nested_List, Leaf_List),
+                     "nested list identity reference not found");
+                  AUnit.Assertions.Assert
+                    (Jintp.Refers (Outer_List, Leaf_Dict),
+                     "nested list to dictionary reference not found");
+                  AUnit.Assertions.Assert
+                    (Jintp.Refers (Root_Dict, Leaf_Dict),
+                     "dictionary to list to dictionary reference not found");
+                  AUnit.Assertions.Assert
+                    (Jintp.Refers (Root_Dict, Leaf_List),
+                     "dictionary to list reference not found");
+                  AUnit.Assertions.Assert
+                    (Jintp.Refers (Leaf_List, Leaf_List),
+                     "list identity reference not found");
+
+                  begin
+                     Jintp.Insert (Leaf_Dict, "self", Leaf_Dict);
+                  exception
+                     when Jintp.Template_Error =>
+                        Cycle_Thrown := True;
+                  end;
+                  AUnit.Assertions.Assert
+                    (Cycle_Thrown, "dictionary cycle was not rejected");
+
+                  Jintp.Register_Filter
+                    (Settings, Echo_Filter'Unrestricted_Access, "echo");
+                  Jintp.Register_Filter
+                    (Settings, Echo_Filter'Unrestricted_Access, "echo");
+               end;
+            end if;
          end;
       end if;
    end Run_Test;

@@ -1,0 +1,1 @@
+{% if mapping[0] %}bad{% endif %}

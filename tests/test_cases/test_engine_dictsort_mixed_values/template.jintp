@@ -1,0 +1,1 @@
+{% for key, value in entries|dictsort(by="value") %}bad{% endfor %}

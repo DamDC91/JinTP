@@ -1,1 +1,7 @@
 AB|yes|Ada|[x]|<< name >>
+AyesB
+A
+      yes
+B
+[x]
+Hello Ada

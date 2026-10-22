@@ -1,1 +1,9 @@
 A<# hidden #>B|<% if enabled %>yes<% else %>no<% endif %>|<< name >>|<< "x"|bracket >>|<% raw %><< name >><% endraw %>
+A   <%- if enabled -%>  yes  <%- endif -%>   B
+A
+    <%+ if enabled %>
+  yes
+    <% endif %>
+B
+<< "x"|bracket("one", "two") >>
+<% import "test_cases/test_custom_environment/macros.jintp" as custom %><< custom.greet("Ada") >>

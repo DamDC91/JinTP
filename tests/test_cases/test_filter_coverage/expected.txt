@@ -5,3 +5,19 @@ ADA|ada||cat|Bee|2|X|trim me|antBeecat|hello Ada|hello wonde...|42|7|2.5|&lt;tag
   first
 
   third
+42|42|42|9
+2.0|-4.0|2.35|-2.35|2.35
+[1,2][3,4]|[1,2][3,4]
+cat|ant|hello...|a\b&#39;
+  x  |long|a:b:c
+first
+>
+>third|single
+Ada|ant|cat|a&#34;b
+short|x
+
+a|z|xbc
+2.0|-2.0|['1']
+xbc|4.0|-4.0
+-2.4
+X
