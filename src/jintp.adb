@@ -3077,9 +3077,14 @@ package body Jintp is
          Find_Child_Block
            (Resolver, Stmt.Block_Name, Template_Index, Element_Index);
          if Template_Index = 0 then
-            return;
+            --  No child override exists. Render the block body from the
+            --  current template so its endblock is handled here too.
+            Template_Index := Old_Template_Index;
+            Element_Index :=
+              Current_Template (Resolver).Block_Map (Stmt.Block_Name);
+         else
+            Set_Current_Template_Index (Resolver, Template_Index);
          end if;
-         Set_Current_Template_Index (Resolver, Template_Index);
          Set_Current_Block_Name (Resolver, Stmt.Block_Name);
          Execute_Block
            (Element_Index,
