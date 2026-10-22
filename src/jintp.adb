@@ -1843,7 +1843,7 @@ package body Jintp is
               Evaluate (Source.Named_Arguments (2).Argument.all, Resolver);
             return
               (Kind => Boolean_Expression_Value,
-               B    => not (Right_Arg < Left_Arg));
+               B    => not (Left_Arg < Right_Arg));
 
          when Operator_Gt          =>
             Left_Arg :=
