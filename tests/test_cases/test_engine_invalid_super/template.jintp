@@ -1,0 +1,1 @@
+{% extends "test_cases/test_template_inheritance/base.jintp" %}{% block body %}{{ super.other() }}{% endblock %}

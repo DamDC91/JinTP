@@ -446,6 +446,9 @@ package body Jintp is
    Loop_Length_Name : constant Unbounded_String :=
      To_Unbounded_String ("loop.length");
 
+   --  Execute_For creates loop.index0 and loop.length as integers, and
+   --  template expressions cannot assign to these resolver entries. The
+   --  wrong-type checks in the loop metadata helpers are defensive guards.
    function Loop_Index (Resolver : Context) return Natural is
       Index0_Value : Expression_Value;
       Found        : constant Boolean :=
@@ -2075,6 +2078,8 @@ package body Jintp is
            (Kind => Boolean_Expression_Value,
             B    => Source_Value.Kind = Boolean_Expression_Value);
       end if;
+      --  The parser tokenizes true and false as boolean literals, so these
+      --  test-name cases cannot be produced by valid template syntax.
       if Source.Name = "false" then
          return
            (Kind => Boolean_Expression_Value,

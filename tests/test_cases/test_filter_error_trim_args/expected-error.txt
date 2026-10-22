@@ -1,0 +1,1 @@
+argument to 'trim' must be a string
