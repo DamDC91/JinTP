@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,8 +22,9 @@ jobs:
     - name: Set up Alire
       uses: alire-project/setup-alire@v4
 
-    - name: Build
-      run: alr -n -C tests build
+    - name: Build library
+      run: alr -n build
 
     - name: Run tests
-      run: cd tests; alr run
+      working-directory: tests
+      run: alr -n run
