@@ -1,0 +1,1 @@
+{% if false %}bad{% elif false %}bad{% elif true %}third{% else %}bad{% endif %}|{% if true %}first{% elif true %}bad{% else %}bad{% endif %}|{% if false %}bad{% else %}else{% endif %}|{% if true %}outer{% if false %}bad{% else %}nested{% endif %}{% endif %}

@@ -1,0 +1,6 @@
+{
+  "words": ["ant", "Bee", "cat"],
+  "empty": [],
+  "text": "  trim me  ",
+  "multiline": "first\n\nthird"
+}

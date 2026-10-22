@@ -3,8 +3,24 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-OUTPUT_DIR="$PWD/coverage-output"
-RUNTIME_PREFIX="$OUTPUT_DIR/gnatcov-rts"
+MODE="${1:-stmt}"
+case "$MODE" in
+    stmt)
+        GNATCOV_LEVEL=stmt
+        ;;
+    branch)
+        # GNATcoverage's source-level branch analogue is decision coverage.
+        GNATCOV_LEVEL=stmt+decision
+        ;;
+    *)
+        echo "Usage: $0 [stmt|branch]" >&2
+        exit 2
+        ;;
+esac
+
+BASE_OUTPUT_DIR="$PWD/coverage-output"
+OUTPUT_DIR="$BASE_OUTPUT_DIR/$MODE"
+RUNTIME_PREFIX="$BASE_OUTPUT_DIR/gnatcov-rts"
 TRACE_FILE="$OUTPUT_DIR/jintp-tests.srctrace"
 REPORT_DIR="$OUTPUT_DIR/report"
 RUNTIME_PROJECT="$RUNTIME_PREFIX/share/gpr"
@@ -20,7 +36,7 @@ gnatcov instrument \
     -P jintp_tests.gpr \
     --projects=../jintp.gpr \
     --units='Jintp*' \
-    --level=stmt \
+    --level="$GNATCOV_LEVEL" \
     --dump-trigger=main-end \
     --dump-filename-env-var=JINTP_GNATCOV_TRACE \
     --relocate-build-tree
@@ -34,7 +50,7 @@ JINTP_GNATCOV_TRACE="$TRACE_FILE" ./bin/jintp_tests
 
 mkdir -p "$REPORT_DIR"
 gnatcov coverage \
-    --level=stmt \
+    --level="$GNATCOV_LEVEL" \
     --annotate=report,xcov \
     --output-dir="$REPORT_DIR" \
     "$TRACE_FILE" \
@@ -44,19 +60,47 @@ gnatcov coverage \
     > "$OUTPUT_DIR/summary.txt"
 
 {
-    printf '| File | Line coverage | Statement coverage |\n'
-    printf '| --- | ---: | ---: |\n'
+    if [[ "$MODE" == "branch" ]]; then
+        printf '| File | Line coverage | Statement coverage | Decision coverage |\n'
+        printf '| --- | ---: | ---: | ---: |\n'
+    else
+        printf '| File | Line coverage | Statement coverage |\n'
+        printf '| --- | ---: | ---: |\n'
+    fi
     for annotation in "$REPORT_DIR"/*.xcov; do
-        awk '
+        if [[ "$MODE" == "branch" ]]; then
+            awk '
             NR == 1 {
                 file = $0
                 sub(/^.*\//, "", file)
                 sub(/:$/, "", file)
             }
-            NR == 2 { lines = $0 }
-            NR == 3 { statements = $0 }
-            END { printf "| `%s` | %s | %s |\n", file, lines, statements }
-        ' "$annotation"
+            / lines covered$/ { lines = $0 }
+            / statement coverage/ { statements = $0 }
+            / decision coverage/ { decisions = $0 }
+            END {
+                if (lines == "") lines = "no code"
+                if (statements == "") statements = "no code"
+                if (decisions == "") decisions = "no code"
+                printf "| `%s` | %s | %s | %s |\n", file, lines, statements, decisions
+            }
+            ' "$annotation"
+        else
+            awk '
+            NR == 1 {
+                file = $0
+                sub(/^.*\//, "", file)
+                sub(/:$/, "", file)
+            }
+            / lines covered$/ { lines = $0 }
+            / statement coverage/ { statements = $0 }
+            END {
+                if (lines == "") lines = "no code"
+                if (statements == "") statements = "no code"
+                printf "| `%s` | %s | %s |\n", file, lines, statements
+            }
+            ' "$annotation"
+        fi
     done
 } > "$OUTPUT_DIR/files-summary.md"
 

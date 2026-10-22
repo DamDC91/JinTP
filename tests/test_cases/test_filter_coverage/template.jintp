@@ -1,0 +1,5 @@
+{{ "ada"|upper }}|{{ "ADA"|lower }}|{{ ""|capitalize }}|{{ words|max }}|{{ words|min(case_sensitive=true) }}|{{ "éé"|count }}|{{ empty|first }}X{{ empty|last }}|{{ text|trim(" ") }}|{{ words|join }}|{{ "hello world"|replace("world", "Ada", count=1) }}|{{ "hello wonderful world"|truncate(14, killwords=true) }}|{{ "42"|int }}|{{ "invalid"|int(default=7) }}|{{ "2.5"|float }}|{{ "<tag>&"|escape }}
+{% for row in [1,2,3,4,5]|batch(2, fill_with=0) %}[{{ row|join(",") }}]{% endfor %}|{% for row in [1,2,3,4,5]|slice(2, fill_with=0) %}[{{ row|join(",") }}]{% endfor %}
+{{ {"a":1,"b":2}|count }}|{{ [3,8,2]|max }}|{{ [3,8,2]|min }}|{{ ["a","B"]|max(case_sensitive=true) }}|{{ "0x2a"|int(base=16) }}|{{ "bad"|float(default=1.25) }}|{{ "x"|center(4) }}
+{{ 2.6|round(method="ceil") }}|{{ 2.6|round(method="floor") }}|{{ 3.5|round }}|{{ -2.5|round }}|{{ 2.345|round(precision=2) }}
+{{ multiline|indent(2, first=true, blank=false) }}

@@ -12,10 +12,15 @@ with AUnit.Options;
 with AUnit.Test_Results;
 with AUnit.Simple_Test_Cases;
 with Ada.Directories;
+with Ada.Command_Line;
+with Ada.Exceptions;
+with Ada.Strings.Fixed;
+with Ada.Strings.Unbounded;
 with AUnit.Reporter.Text;
 with Ada.Direct_IO;
 
 procedure Jintp_Tests is
+   use type AUnit.Status;
 
    Test_Cases_Dir : constant String := "test_cases/";
 
@@ -99,11 +104,82 @@ procedure Jintp_Tests is
    is
       Test_Dir      : constant String := Test_Cases_Dir & T.Name.all;
       Template_Path : constant String := Test_Dir & "/template.jintp";
-      Actual        : constant String := Jintp.Render (Template_Path, T.Dict);
-      Expected      : constant String :=
-        Get_File_Content (Test_Dir & "/expected.txt");
+      Expected_Error_Path : constant String :=
+        Test_Dir & "/expected-error.txt";
+
+      function Render_Template return String is
+         function Bracket_Filter
+           (Arguments : Jintp.Unbounded_String_Array)
+            return Ada.Strings.Unbounded.Unbounded_String
+         is
+         begin
+            return Ada.Strings.Unbounded.To_Unbounded_String
+              ("[" & Ada.Strings.Unbounded.To_String (Arguments (1)) & "]");
+         end Bracket_Filter;
+      begin
+         if T.Name.all = "test_custom_environment" then
+            declare
+               Settings : Jintp.Environment;
+            begin
+               Jintp.Configure
+                 (Settings,
+                  Expression_Start => "<<",
+                  Expression_End   => ">>",
+                  Statement_Start  => "<%",
+                  Statement_End    => "%>",
+                  Comment_Start    => "<#",
+                  Comment_End      => "#>",
+                  Max_Cache_Size   => 0,
+                  Trim_Blocks      => True,
+                  Lstrip_Blocks    => True);
+               Jintp.Register_Filter
+                 (Settings, Bracket_Filter'Unrestricted_Access, "bracket");
+               return Jintp.Render (Template_Path, T.Dict, Settings);
+            end;
+         end if;
+         return Jintp.Render (Template_Path, T.Dict);
+      end Render_Template;
    begin
-      AUnit.Assertions.Assert (Actual, Expected, "Fail test " & T.Name.all);
+      if Ada.Directories.Exists (Expected_Error_Path) then
+         declare
+            Expected_Error : constant String :=
+              Get_File_Content (Expected_Error_Path);
+            Caught_Error   : Boolean := False;
+            Error_Message  : Ada.Strings.Unbounded.Unbounded_String;
+            Actual         : Ada.Strings.Unbounded.Unbounded_String;
+         begin
+            begin
+               Actual :=
+                 Ada.Strings.Unbounded.To_Unbounded_String
+                   (Render_Template);
+            exception
+               when E : others       =>
+                  Caught_Error := True;
+                  Error_Message :=
+                    Ada.Strings.Unbounded.To_Unbounded_String
+                      (Ada.Exceptions.Exception_Message (E));
+            end;
+            AUnit.Assertions.Assert
+              (Caught_Error
+               and then Ada.Strings.Fixed.Index
+                 (Ada.Strings.Unbounded.To_String (Error_Message),
+                  Expected_Error) > 0,
+               "Wrong error in test " & T.Name.all & ": "
+               & Ada.Strings.Unbounded.To_String (Error_Message)
+               & (if Caught_Error
+                  then ""
+                  else "; rendered '"
+                    & Ada.Strings.Unbounded.To_String (Actual) & "'"));
+         end;
+      else
+         declare
+            Actual : constant String := Render_Template;
+            Expected : constant String :=
+              Get_File_Content (Test_Dir & "/expected.txt");
+         begin
+            AUnit.Assertions.Assert (Actual, Expected, "Fail test " & T.Name.all);
+         end;
+      end if;
    end Run_Test;
 
    function Suite return AUnit.Test_Suites.Access_Test_Suite is
@@ -147,4 +223,7 @@ begin
 
    AUnit.Reporter.Text.Report (Engine => Text_Reporter,
                                R      => Result);
+   if Status = AUnit.Failure then
+      Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
+   end if;
 end Jintp_Tests;

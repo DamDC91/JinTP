@@ -1,0 +1,1 @@
+{% macro greet(name, punctuation="!") %}Hello {{ name }}{{ punctuation }}{% endmacro %}{% macro unused() %}unused{% endmacro %}

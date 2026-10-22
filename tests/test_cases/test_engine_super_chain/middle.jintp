@@ -1,0 +1,1 @@
+{% extends "test_cases/test_engine_super_chain/base.jintp" %}{% block body %}middle({{ super() }}){% endblock %}

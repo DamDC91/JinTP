@@ -1,0 +1,1 @@
+{% macro label(name, punctuation="!") %}{{ name }}{{ punctuation }}{% endmacro %}{{ label("Ada") }}|{{ label(punctuation="?", name="Bob") }}|{% macro label(name) %}replaced {{ name }}{% endmacro %}{{ label("Cara") }}
