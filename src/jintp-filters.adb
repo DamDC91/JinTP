@@ -279,7 +279,9 @@ package body Filters is
 
       function Evaluate_Max (Source_List : List) return Expression_Value is
          Len            : constant Ada.Containers.Count_Type :=
-           Length (Source_List.Elements.Values);
+           (if Source_List.Elements = null
+            then 0
+            else Length (Source_List.Elements.Values));
          Case_Sensitive : Expression_Value;
          Result         : Expression_Value;
       begin
@@ -309,7 +311,9 @@ package body Filters is
 
       function Evaluate_Min (Source_List : List) return Expression_Value is
          Len            : constant Ada.Containers.Count_Type :=
-           Length (Source_List.Elements.Values);
+           (if Source_List.Elements = null
+            then 0
+            else Length (Source_List.Elements.Values));
          Case_Sensitive : Expression_Value;
          Result         : Expression_Value;
       begin
