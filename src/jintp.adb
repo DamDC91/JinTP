@@ -2501,12 +2501,6 @@ package body Jintp is
                Process_Control_Block_Elements
                  (Current, Out_Buffer, Loop_Resolver);
                Loop_Index0 := Loop_Index0 + 1;
-               Ada.Text_IO.Put_Line
-                 (Ada.Text_IO.Standard_Error,
-                  "ITER idx="
-                  & Loop_Index0'Image
-                  & " buflen="
-                  & Natural'Image (Length (Out_Buffer)));
                Empty_Loop := False;
             end if;
          end loop;
@@ -2564,11 +2558,12 @@ package body Jintp is
                  (Loop_Resolver.Values,
                   Variable_2_Name,
                   Value_Assocs (Keys (I)));
-               Set_Loop_Index0 (Loop_Resolver, Loop_Length - 1 - I);
                if Condition = null
                  or else Evaluate_Boolean (Condition.all, Loop_Resolver)
                then
+                  Set_Loop_Index0 (Loop_Resolver, Loop_Index0);
                   Process_Control_Block_Elements (Loop_Resolver);
+                  Loop_Index0 := Loop_Index0 + 1;
                   Empty_Loop := False;
                end if;
             end loop;
@@ -2602,6 +2597,7 @@ package body Jintp is
       is
          Items       : Key_And_Value_Vectors.Vector;
          Loop_Length : Natural := 0;
+         Loop_Index0 : Natural := 0;
       begin
          for C in Value_Assocs.Iterate loop
             Append (Items, (Key (C), Element (C)));
@@ -2631,11 +2627,13 @@ package body Jintp is
                  (Loop_Resolver.Values, Variable_1_Name, Items (I).Key);
                Insert_Value
                  (Loop_Resolver.Values, Variable_2_Name, Items (I).Value);
-               Set_Loop_Index0 (Loop_Resolver, Loop_Length - 1 - I);
                if Condition = null
                  or else Evaluate_Boolean (Condition.all, Loop_Resolver)
                then
+                  Set_Loop_Index0 (Loop_Resolver, Loop_Index0);
                   Process_Control_Block_Elements (Loop_Resolver);
+                  Loop_Index0 := Loop_Index0 + 1;
+                  Empty_Loop := False;
                end if;
             end loop;
          else
@@ -2644,9 +2642,18 @@ package body Jintp is
                  (Loop_Resolver.Values, Variable_1_Name, Items (I).Key);
                Insert_Value
                  (Loop_Resolver.Values, Variable_2_Name, Items (I).Value);
-               Set_Loop_Index0 (Loop_Resolver, I);
-               Process_Control_Block_Elements (Loop_Resolver);
+               if Condition = null
+                 or else Evaluate_Boolean (Condition.all, Loop_Resolver)
+               then
+                  Set_Loop_Index0 (Loop_Resolver, Loop_Index0);
+                  Process_Control_Block_Elements (Loop_Resolver);
+                  Loop_Index0 := Loop_Index0 + 1;
+                  Empty_Loop := False;
+               end if;
             end loop;
+         end if;
+         if Empty_Loop then
+            Skip_Control_Block_Elements (Current);
          end if;
       end Execute_Sorted_By_Value;
 
