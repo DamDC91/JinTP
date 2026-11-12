@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Task List</title>
+  </head>
+  <body>
+    {% for i in data %}
+        {% if i == 1 %}
+            <h1>First</h1>
+        {% elif i == 2 %} 
+            <h1>Second</h1>
+        {% elif i == 3 %} 
+            <h1>Third</h1>
+        {% endif %}
+    {% endfor %}
+   </body>
+</html>

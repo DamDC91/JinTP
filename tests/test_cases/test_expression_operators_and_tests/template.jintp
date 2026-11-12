@@ -1,0 +1,1 @@
+{{ 2 + 3 * 4 }}|{{ (2 + 3) * 4 }}|{{ 7 // 2 }}|{{ 2 ** 3 }}|{{ "Ada" ~ " Lovelace" }}|{{ score is divisibleby(3) }}|{{ "red" is in colors }}|{{ missing is undefined }}|{{ name is defined }}|{{ numbers|first }}|{{ numbers|last }}|{{ numbers|join(",") }}
