@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User List</title>
+  </head>
+  <body>
+    <h1>Users</h1>
+
+    {% macro user_info(user) %}
+       <p>Name: {{ user.name|capitalize }}</p>
+       <p>Age: {{ user.age }}</p>
+      {% if user.age is even %}
+        <p>Status: Even-aged</p>
+      {% else %}
+        <p>Status: Odd-aged</p>
+      {% endif %}
+    {% endmacro %}
+
+    {% for user in users %}
+      <div class="user">
+        {{ user_info(user) }}
+      </div>
+    {% endfor %}
+    
+  </body>
+</html>

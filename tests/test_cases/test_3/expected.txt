@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome, John_doe</title>
+  </head>
+  <body>
+    <h1>Hello, John doe</h1>
+
+    
+      <p>Welcome, Admin!</p>
+    
+
+    <h2>Your Messages (3)</h2>
+    <ul>
+      
+        <li>Hello, World!</li>
+      
+        <li>This is a test message.</li>
+      
+        <li>Jinja-like...</li>
+      
+    </ul>
+  </body>
+</html>
