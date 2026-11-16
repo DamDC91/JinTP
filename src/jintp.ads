@@ -188,6 +188,15 @@ package Jintp is
        or else
          raise Template_Error with "inserting dictionary would create cycle";
 
+   procedure Append (Container : in out List;
+                     New_Item  : Integer);
+
+   procedure Append (Container : in out List;
+                     New_Item  : Boolean);
+
+   procedure Append (Container : in out List;
+                     New_Item  : Float);
+
    procedure Clear (Container : in out List);
 
    type Unbounded_String_Array is
